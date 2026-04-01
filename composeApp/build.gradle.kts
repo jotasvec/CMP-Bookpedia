@@ -8,8 +8,10 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
+    //alias(libs.plugins.composeMultiplatform)
+
 }
 
 kotlin {
@@ -19,7 +21,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -30,7 +32,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm("desktop")
 
     room {
@@ -39,9 +41,9 @@ kotlin {
 
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
-            implementation(compose.preview)
+            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.koin.android)
@@ -49,14 +51,16 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.material3)
+            // implementation("org.jetbrains.compose.material3:material3:1.9.0")
+            implementation("org.jetbrains.compose.foundation:foundation:1.10.3")
+            implementation("org.jetbrains.compose.ui:ui:1.10.3")
+            implementation(libs.compose.ui)
+            implementation("org.jetbrains.compose.components:components-resources:1.10.3")
+            //implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.3")
+            implementation(libs.compose.uiToolingPreview)
+            //implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.3")
 
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
@@ -70,6 +74,8 @@ kotlin {
 
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -80,9 +86,7 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
 
-        dependencies {
-            ksp(libs.androidx.room.compiler)
-        }
+
     }
 }
 
@@ -93,6 +97,7 @@ android {
     defaultConfig {
         applicationId = "com.plcoding.bookpedia"
         minSdk = libs.versions.android.minSdk.get().toInt()
+        //noinspection OldTargetApi
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
@@ -114,6 +119,7 @@ android {
 }
 
 dependencies {
+    ksp(libs.androidx.room.compiler)
     debugImplementation(compose.uiTooling)
 }
 
