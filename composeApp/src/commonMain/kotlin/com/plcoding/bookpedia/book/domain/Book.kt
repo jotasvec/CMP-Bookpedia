@@ -15,18 +15,3 @@ data class Book(
 
 )
 
-val books = (1..10).map {
-    Book(
-        id = it.toString(),
-        title = "Book $it",
-        imageUrl = "https://s3.amazonaws.com/books/$it",
-        authors = listOf("jotasvec"),
-        description = """About Book $it""",
-        firstPublishedDate = null,
-        ratingAverage = 4.123,
-        language = listOf("en"),
-        ratingCount = null,
-        numPages = 100,
-        numEditions = 1
-    )
-}
