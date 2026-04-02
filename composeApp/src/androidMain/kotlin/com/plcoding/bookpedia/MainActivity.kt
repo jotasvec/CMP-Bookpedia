@@ -14,9 +14,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App(
-                engine = remember { OkHttp.create() }
-            )
+            App()
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewAndroid() {
+    MainActivity()
 }
