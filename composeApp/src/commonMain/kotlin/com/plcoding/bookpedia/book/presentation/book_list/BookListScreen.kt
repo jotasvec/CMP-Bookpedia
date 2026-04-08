@@ -1,6 +1,7 @@
 package com.plcoding.bookpedia.book.presentation.book_list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -157,82 +158,88 @@ fun BookListScreen(
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxWidth().weight(1f),
+
                 ){ pageIndex ->
-                    when (pageIndex) {
-                        0 -> {
-                            if(state.isLoading){
-                                CircularProgressIndicator()
-                            } else {
-                                when {
-                                    state.errorMessage != null -> {
-                                        Text(
-                                            text = state.errorMessage.asString(),
-                                            textAlign = TextAlign.Center,
-                                            style = MaterialTheme.typography.headlineSmall,
-                                            color = MaterialTheme.colorScheme.error
-                                        )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+
+                        when (pageIndex) {
+                            0 -> {
+                                if(state.isLoading){
+                                    CircularProgressIndicator()
+                                } else {
+                                    when {
+                                        state.errorMessage != null -> {
+                                            Text(
+                                                text = state.errorMessage.asString(),
+                                                textAlign = TextAlign.Center,
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                color = MaterialTheme.colorScheme.error
+                                            )
+                                        }
+                                        state.searchResult.isEmpty() -> {
+                                            Text(
+                                                text = stringResource(Res.string.error_message, "no results found"),
+                                                textAlign = TextAlign.Center,
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                color = MaterialTheme.colorScheme.error
+                                            )
+                                        }
+                                        else -> {
+                                            BookList(
+                                                booksList = state.searchResult,
+                                                onBookClick = { onActions(BookListActions.OnBookClicked(it)) },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                scrollState = searchLazyListState,
+                                            )
+                                        }
                                     }
-                                    state.searchResult.isEmpty() -> {
-                                        Text(
-                                            text = stringResource(Res.string.error_message, "no results found"),
-                                            textAlign = TextAlign.Center,
-                                            style = MaterialTheme.typography.headlineSmall,
-                                            color = MaterialTheme.colorScheme.error
-                                        )
-                                    }
-                                    else -> {
-                                        BookList(
-                                            booksList = state.searchResult,
-                                            onBookClick = { onActions(BookListActions.OnBookClicked(it)) },
-                                            modifier = Modifier.fillMaxWidth(),
-                                            scrollState = searchLazyListState,
-                                        )
+                                }
+                            } // end index tab 0
+                            1 -> {
+                                if(state.isLoading){
+                                    CircularProgressIndicator()
+                                } else {
+                                    when {
+                                        state.errorMessage != null -> {
+                                            Text(
+                                                text = state.errorMessage.asString(),
+                                                textAlign = TextAlign.Center,
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                color = MaterialTheme.colorScheme.error
+                                            )
+                                        }
+
+                                        state.favoriteBooks.isEmpty() -> {
+                                            Text(
+                                                text = stringResource(
+                                                    Res.string.error_message,
+                                                    "no favorite books were added"
+                                                ),
+                                                textAlign = TextAlign.Center,
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                color = MaterialTheme.colorScheme.error
+                                            )
+                                        }
+
+                                        else -> {
+                                            BookList(
+                                                booksList = state.favoriteBooks,
+                                                onBookClick = { onActions(BookListActions.OnBookClicked(it)) },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                scrollState = favoriteLazyListState,
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        } // end index tab 0
-                        1 -> {
-                            if(state.isLoading){
-                                CircularProgressIndicator()
-                            } else {
-                                when {
-                                    state.errorMessage != null -> {
-                                        Text(
-                                            text = state.errorMessage.asString(),
-                                            textAlign = TextAlign.Center,
-                                            style = MaterialTheme.typography.headlineSmall,
-                                            color = MaterialTheme.colorScheme.error
-                                        )
-                                    }
-
-                                    state.favoriteBooks.isEmpty() -> {
-                                        Text(
-                                            text = stringResource(
-                                                Res.string.error_message,
-                                                "no favorite books were added"
-                                            ),
-                                            textAlign = TextAlign.Center,
-                                            style = MaterialTheme.typography.headlineSmall,
-                                            color = MaterialTheme.colorScheme.error
-                                        )
-                                    }
-
-                                    else -> {
-                                        BookList(
-                                            booksList = state.favoriteBooks,
-                                            onBookClick = { onActions(BookListActions.OnBookClicked(it)) },
-                                            modifier = Modifier.fillMaxWidth(),
-                                            scrollState = favoriteLazyListState,
-                                        )
-                                    }
-                                }
+                            else -> {
+                                throw IllegalArgumentException("Invalid pageIndex $pageIndex")
                             }
-                        }
-                        else -> {
-                            throw IllegalArgumentException("Invalid pageIndex $pageIndex")
                         }
                     }
-
                 }
 
             }
