@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Start
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,16 +37,13 @@ import com.plcoding.bookpedia.book.presentation.book_details.components.BookDeta
 import com.plcoding.bookpedia.book.presentation.book_details.components.ChipSize
 import com.plcoding.bookpedia.book.presentation.book_details.components.TitleContent
 import com.plcoding.bookpedia.core.presentation.SandYellow
-import io.ktor.util.reflect.typeInfo
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.round
-import kotlin.reflect.typeOf
 
 @Composable
 fun BookDetailScreenRoot(
     viewModel: BookDetailViewModel,
     onBackClicked: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
