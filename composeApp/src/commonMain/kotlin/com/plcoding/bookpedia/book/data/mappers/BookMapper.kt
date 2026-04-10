@@ -1,7 +1,9 @@
 package com.plcoding.bookpedia.book.data.mappers
 
+import com.plcoding.bookpedia.book.data.database.BookEntity
 import com.plcoding.bookpedia.book.data.dto.SearchBookDto
 import com.plcoding.bookpedia.book.domain.Book
+import kotlin.String
 
 fun SearchBookDto.toBook(): Book {
     return Book(
@@ -20,5 +22,37 @@ fun SearchBookDto.toBook(): Book {
         ratingCount = ratingsCount,
         numPages = numPagesMedian,
         numEditions = editionCount,
+    )
+}
+
+fun Book.toBookEntity() : BookEntity{
+    return BookEntity(
+        id = id,
+        title = title,
+        imageUrl = imageUrl,
+        authors = authors,
+        description = description,
+        languages = languages,
+        firstPublishedDate = firstPublishedDate,
+        ratingAverage = ratingAverage,
+        ratingCount = ratingCount,
+        numPages = numPages,
+        numEditions = numEditions,
+    )
+}
+
+fun BookEntity.toBook() : Book{
+    return Book(
+        id = id,
+        title = title,
+        imageUrl = imageUrl,
+        authors = authors,
+        description = description,
+        languages = languages,
+        firstPublishedDate = firstPublishedDate,
+        ratingAverage = ratingAverage,
+        ratingCount = ratingCount,
+        numPages = numPages,
+        numEditions = numEditions,
     )
 }
