@@ -38,8 +38,10 @@ import com.plcoding.bookpedia.book.presentation.book_details.components.BookDeta
 import com.plcoding.bookpedia.book.presentation.book_details.components.ChipSize
 import com.plcoding.bookpedia.book.presentation.book_details.components.TitleContent
 import com.plcoding.bookpedia.core.presentation.SandYellow
+import io.ktor.util.reflect.typeInfo
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.round
+import kotlin.reflect.typeOf
 
 @Composable
 fun BookDetailScreenRoot(
@@ -147,7 +149,8 @@ fun BookDetailScreen(
                         .fillMaxWidth()
                         .padding(top = 24.dp, bottom = 8.dp)
                 )
-                val isBlank = book.description.isNullOrBlank()
+                val isBlank = book.description.isNullOrBlank() || book.description.equals("null", ignoreCase = true)
+
                 if(state.isLoading){
                     Box(
                         modifier = Modifier.fillMaxWidth()
